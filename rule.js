@@ -1,7 +1,6 @@
 module.exports = {
     summary: "Fate/Grand Order",
     *beforeSendResponse(requestDetail, responseDetail) {
-        console.log(requestDetail.url);
 
         let response = Object.assign({}, responseDetail.response);
         let verify1 = (requestDetail.requestData.indexOf("key=battlesetup")>0);
@@ -55,7 +54,7 @@ module.exports = {
             let newJsonStr = JSON.stringify(json);
 
             // 还原中文Unicode数据
-            var cnReg = /[\u0391-\uFFE5]/gm;
+            let cnReg = /[\u0391-\uFFE5]/gm;
             if (cnReg.test(newJsonStr)) {
                 newJsonStr = newJsonStr.replace(cnReg,
                 function(str) {
