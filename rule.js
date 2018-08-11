@@ -17,7 +17,7 @@ module.exports = {
 
             delete json.sign;
 
-            // 计算友方数量及地方数量
+            // 计算友方数量及敌方数量
             let Num=json.cache.replaced.battle[0].battleInfo.userSvt.length;
             let friendNum=json.cache.replaced.battle[0].battleInfo.myDeck.svts.length;
             let battleNum=json.cache.replaced.battle[0].battleInfo.enemyDeck.length;
