@@ -14,7 +14,8 @@ module.exports = {
             let jsonStr = new Buffer(rawBody, "base64").toString();
             let json = JSON.parse(jsonStr);
 
-            delete json.sign;
+            // 需要使用我的xfgo模块，否则数据错误201
+            json.sign="";
 
             // 计算友方数量及敌方数量
             let Num=json.cache.replaced.battle[0].battleInfo.userSvt.length;
