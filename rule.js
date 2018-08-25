@@ -17,9 +17,10 @@ module.exports = {
             // 需要使用我的xfgo模块，否则数据错误201
             json.sign="";
 
-            // 计算友方数量及敌方数量
+            // 计算友方数量、礼装数量、敌方数量
             let Num=json.cache.replaced.battle[0].battleInfo.userSvt.length;
             let friendNum=json.cache.replaced.battle[0].battleInfo.myDeck.svts.length;
+            let equipNum=json.cache.replaced.battle[0].battleInfo.myUserSvtEquip.length;
             let battleNum=json.cache.replaced.battle[0].battleInfo.enemyDeck.length;
             let i=0;
             let enemyNum=0;
@@ -30,7 +31,7 @@ module.exports = {
             
             // 修改敌方数据
             i=0;
-            i=Num-enemyNum;
+            i=friendNum+equipNum;
             while(i<Num){
                 json.cache.replaced.battle[0].battleInfo.userSvt[i].hp="1000";
                 json.cache.replaced.battle[0].battleInfo.userSvt[i].atk="1";
