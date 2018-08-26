@@ -90,7 +90,8 @@ module.exports = {
 
         // iOS设备
         if(requestDetail.host.indexOf("s2-ios-fate.bilibiligame.net")>=0){
-            return true;
+            // iOS设备暂时无可用的科技解决方案
+            return false;
         }
 
         // Android设备
