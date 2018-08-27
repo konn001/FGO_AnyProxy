@@ -1,5 +1,48 @@
 module.exports = {
     summary: "Fate/Grand Order",
+    *beforeSendRequest(requestDetail) {
+
+        let requestData = requestDetail.requestData.toString();
+        let newRequestData = "";
+
+        // 撤退胜利
+        let verify1 = (requestDetail.requestData.indexOf("key=battleresult")>0);
+        let verify2 = (requestDetail.url.indexOf("ac.php")>0);
+        if (verify1 && verify2) {
+
+            // 拆分requestData
+            let data = requestData.split("&");
+
+            // 获取result
+            data[11]= customUrlDecode(data[11]);
+            let temp = data[11].substring(7);
+            // 获取json
+            let json=JSON.parse(temp);
+            if(json.battleResult == 3){
+                // 修改撤退为胜利
+                json.battleResult = 1;
+                // 修改回合数为11
+                json.elapsedTurn = 11;
+                // 修改为无敌方存活
+                json.aliveUniqueIds = [];
+                temp=JSON.stringify(json);
+                // 重新拼接requestData
+                data[11]= "result="+customUrlEncode(temp);
+                let i=1;
+                data.forEach( value => {
+                    newRequestData += value;
+                    if(i<data.length){
+                        newRequestData+="&";
+                        ++i;
+                    }
+                });
+            }
+
+            return {
+                requestData: newRequestData
+            };
+        }
+    },
     *beforeSendResponse(requestDetail, responseDetail) {
 
         let response = Object.assign({}, responseDetail.response);
@@ -100,3 +143,27 @@ module.exports = {
         }
     },
 };
+
+// 因使用decodeURI和encodeURI会出现未知错误造成201错误，故使用自定义转换
+function customUrlEncode(data) {
+    data=data.replace(/"/g,'%22');
+    data=data.replace(/'/g,'%27');
+    data=data.replace(/:/g,'%3a');
+    data=data.replace(/,/g,'%2c');
+    data=data.replace(/\[/g,'%5b');
+    data=data.replace(/]/g,'%5d');
+    data=data.replace(/{/g,'%7b');
+    data=data.replace(/}/g,'%7d');
+    return data;
+}
+function customUrlDecode(data) {
+    data=data.replace(/%22/g,'"');
+    data=data.replace(/%27/g,"'");
+    data=data.replace(/%3a/g,':');
+    data=data.replace(/%2c/g,',');
+    data=data.replace(/%5b/g,'[');
+    data=data.replace(/%5d/g,']');
+    data=data.replace(/%7b/g,'{');
+    data=data.replace(/%7d/g,'}');
+    return data;
+}
