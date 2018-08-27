@@ -3,7 +3,7 @@ module.exports = {
     *beforeSendRequest(requestDetail) {
 
         let requestData = requestDetail.requestData.toString();
-        let newRequestData = "";
+        let newRequestData = requestData;
 
         // 撤退胜利
         let verify1 = (requestDetail.requestData.indexOf("key=battleresult")>0);
@@ -19,6 +19,7 @@ module.exports = {
             // 获取json
             let json=JSON.parse(temp);
             if(json.battleResult == 3){
+                newRequestData = "";
                 // 修改撤退为胜利
                 json.battleResult = 1;
                 // 修改回合数为11
