@@ -1,5 +1,7 @@
 # FGO_AnyProxy
 
+捐赠我以支持我继续开发维护 [捐赠地址](https://github.com/locbytes/donation)
+
 通过AnyProxy修改FGO战斗数据。
 
 需要使用我的Xposed模块xfgo来过sign验证
